@@ -1,5 +1,5 @@
 exports.up = function(knex) {
-  knex.schema.createTable("Pics", tbl => {
+  return knex.schema.createTable("Pics", tbl => {
     tbl.increments("id").primary();
     tbl.string("name").notNullable();
     tbl.string("description");
@@ -7,10 +7,11 @@ exports.up = function(knex) {
       .string("url")
       .notNullable()
       .unique();
+    tbl.integer("eventId").notNullable();
     tbl.foreign("eventId").references("Events.id");
   });
 };
 
 exports.down = function(knex) {
-  knex.schema.dropTableIfExists("Pics");
+  return knex.schema.dropTableIfExists("Pics");
 };

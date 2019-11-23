@@ -1,5 +1,5 @@
 exports.up = function(knex) {
-  knex.schema.createTable("Events", tbl => {
+  return knex.schema.createTable("Events", tbl => {
     tbl.increments("id").primary();
     tbl
       .string("name")
@@ -9,10 +9,11 @@ exports.up = function(knex) {
     tbl.string("location");
     tbl.string("comments");
     tbl.string("pic");
+    tbl.integer("createdBy").notNullable();
     tbl.foreign("createdBy").references("Users.id");
   });
 };
 
 exports.down = function(knex) {
-  knex.schema.dropTableIfExists("events");
+  return knex.schema.dropTableIfExists("events");
 };
