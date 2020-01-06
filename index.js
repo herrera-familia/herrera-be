@@ -36,4 +36,26 @@ server.post("/register", (req, res) => {
   });
 });
 
+server.post("/login", (req, res) => {
+  console.log("logging in", req.body);
+
+  db("users")
+    .where({ email: req.body.email })
+    .select("password")
+    .then(data => {
+      console.log("data", data);
+      if (data.length === 0) {
+        res.status(404).json({ error: "user or password Incorrect " });
+      } else {
+        res
+          .status(200)
+          .json({ pass: data, token: "token", name: "user's name" });
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: "whoops" });
+    });
+});
+
 server.listen(8000, () => console.log("=== LISTENING ON PORT 8000 ==="));
